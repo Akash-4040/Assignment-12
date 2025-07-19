@@ -1,0 +1,48 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+using namespace std;
+
+int main() {
+    ifstream file("Netflix_movies_and_tv_shows_clustering.csv"); // open file
+
+    if (!file) {
+        cout << "File not found!" << endl;
+        return 1; // stop program if file not open
+    }
+
+    string line;
+
+    getline(file, line); // skip header line
+
+    int count = 0;
+
+    while (getline(file, line) && count < 10) { // read 10 lines
+        stringstream ss(line);
+
+        string show_id, type, title, director, release_year, temp;
+
+        // Read first 4 fields separated by commas
+        getline(ss, show_id, ',');
+        getline(ss, type, ',');
+        getline(ss, title, ',');
+        getline(ss, director, ',');
+
+        // skip 3 fields
+        for (int i = 0; i < 3; i++) {
+            getline(ss, temp, ',');
+        }
+
+        // read release_year field
+        getline(ss, release_year, ',');
+
+        // print the 5 fields
+        cout << show_id << " | " << type << " | " << title << " | " << director << " | " << release_year << endl;
+
+        count++;
+    }
+
+    file.close(); // close file
+
+    return 0;
+}
